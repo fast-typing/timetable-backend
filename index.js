@@ -4,11 +4,13 @@ import multer from "multer";
 import {
   registerValidation,
   loginValidation,
-  timetableCreateValidation
+  timetableCreateValidation,
+  teacherCreateValidation
 } from "./validations.js";
 import checkAuth from "./utils/checkAuth.js";
 import * as TimetableController from "./controllers/TimetableController.js";
 import * as UserController from "./controllers/UserController.js";
+import * as TeacherController from "./controllers/TeacherController.js";
 import handleValidationErrors from "./utils/handleValidationErrors.js";
 import cors from "cors";
 
@@ -67,8 +69,23 @@ app.post(
   TimetableController.create
 );
 
+app.get("/teachers/all", TeacherController.getAll);
+app.get("/teacher/:id", TeacherController.getOne);
+app.post(
+  "/teacher/create",
+  teacherCreateValidation,
+  handleValidationErrors,
+  TeacherController.create
+);
+app.patch("/teacher/:id", checkAuth, TeacherController.update);
+app.delete("/teacher/:id", checkAuth, TeacherController.remove);
+
+
 app.use("/uploads", express.static("uploads"));
 app.delete("/timetable/:id", checkAuth, TimetableController.remove);
+
+
+
 
 app.listen(process.env.PORT || 3000, (err) => {
   if (err) {

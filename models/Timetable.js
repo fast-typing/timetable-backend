@@ -5,6 +5,7 @@ const TimetableSchema = new mongoose.Schema(
     date: {
       type: String,
       required: true,
+      unique: true,
     },
     groups: [
       {
@@ -30,9 +31,6 @@ const TimetableSchema = new mongoose.Schema(
         ],
       },
     ],
-  },
-  {
-    timestamps: true,
   }
 );
 export default mongoose.model("Timetable", TimetableSchema);
