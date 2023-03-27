@@ -1,40 +1,41 @@
-import TeacherModel from "../models/Teacher.js";
+import GroupModel from "../models/Group.js";
 
 export const create = async (req, res) => {
   try {
-    const doc = new TeacherModel({
-      fullName: req.body.fullName,
+    const doc = new GroupModel({
+      name: req.body.name,
+      academic: req.body.academic,
     });
 
-    const teacher = await doc.save();
-    res.json(teacher);
+    const group = await doc.save();
+    res.json(group);
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      message: "Учитель уже создан",
+      message: "Не удалось создать группу",
     });
   }
 };
 
 export const getAll = async (req, res) => {
   try {
-    const teachers = await TeacherModel.find().exec();
-    res.json(teachers);
+    const groups = await GroupModel.find().exec();
+    res.json(groups);
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      message: "Не удалось получить учителей",
+      message: "Не удалось получить группу",
     });
   }
 };
 
 export const getOne = async (req, res) => {
   try {
-    const teacherId = req.params.id;
+    const groupId = req.params.id;
 
-    TeacherModel.findByIdAndUpdate(
+    GroupModel.findByIdAndUpdate(
       {
-        _id: teacherId,
+        _id: groupId,
       },
       {
         returnDocument: "after",
@@ -43,13 +44,13 @@ export const getOne = async (req, res) => {
         if (err) {
           console.log(err);
           return res.status(500).json({
-            message: "Не удалось получить учителя",
+            message: "Не удалось вернуть группу",
           });
         }
 
         if (!doc) {
           return res.status(404).json({
-            message: "Учител не найден",
+            message: "группа не найдена",
           });
         }
         res.json(doc);
@@ -58,28 +59,28 @@ export const getOne = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({
-      message: "Не удалось получить учителя",
+      message: "Не удалось получить группу",
     });
   }
 };
 export const remove = async (req, res) => {
   try {
-    const applicationId = req.params.id;
+    const groupId = req.params.id;
 
-    TeacherModel.findByIdAndDelete(
+    GroupModel.findByIdAndDelete(
       {
-        _id: applicationId,
+        _id: groupId,
       },
       (err, doc) => {
         if (err) {
           console.log(err);
           return res.status(500).json({
-            message: "Не удалось удалить учителя",
+            message: "Не удалось удалить группу",
           });
         }
         if (!doc) {
           return res.status(404).json({
-            message: "заявка не найден",
+            message: "Группа не найден",
           });
         }
         res.json({
@@ -90,19 +91,19 @@ export const remove = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      message: "Не удалось получить учителя",
+      message: "Не удалось получить группу",
     });
   }
 };
 export const update = async (req, res) => {
   try {
-    const teacherId = req.params.id;
-    await TeacherModel.updateOne(
+    const groupId = req.params.id;
+    await GroupModel.updateOne(
       {
-        _id: teacherId,
+        _id: groupId,
       },
       {
-        holidays: req.body.holidays,
+        academic: req.body.academic,
       }
     );
 
@@ -112,7 +113,7 @@ export const update = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({
-      message: "Не удалось обновить учителя",
+      message: "Не удалось обновить группу",
     });
   }
 };
