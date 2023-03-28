@@ -21,6 +21,7 @@ export const loginValidation = [
 export const timetableCreateValidation = [
   body("date", "Дата не определена").isLength({ min: 3 }).isString(),
   body("groups", "Данные не определены").isArray().notEmpty(),
+  body("groupNames", "Не удалось создать общее мероприятие"),
 ];
 export const timetableUpdateValidation = [
   body("classes", "Данные не определены").isArray().notEmpty(),

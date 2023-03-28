@@ -5,6 +5,7 @@ export const create = async (req, res) => {
     const doc = new TimetableModel({
       date: req.body.date,
       groups: req.body.groups,
+      dataEvent: req.body.dataEvent
     });
 
     const timetable = await doc.save();

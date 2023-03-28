@@ -10,6 +10,7 @@ export const create = async (req, res) => {
     const group = await doc.save();
     res.json(group);
   } catch (err) {
+    
     console.log(err);
     res.status(500).json({
       message: "Не удалось создать группу",
@@ -117,3 +118,4 @@ export const update = async (req, res) => {
     });
   }
 };
+
