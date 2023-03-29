@@ -7,6 +7,9 @@ const UserSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
+    groupName:{
+      type: String,
+    },
     passwordHash: {
       type: String,
       required: true,

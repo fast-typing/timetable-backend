@@ -6,6 +6,7 @@ import {
   loginValidation,
   timetableCreateValidation,
   teacherCreateValidation,
+  updateUserValidation,
 } from "./validations.js";
 import checkAuth from "./utils/checkAuth.js";
 import * as TimetableController from "./controllers/TimetableController.js";
@@ -57,8 +58,15 @@ app.post("/uploads", checkAuth, upload.single("image"), (req, res) => {
   });
 });
 app.get("/me", checkAuth, UserController.getMe);
-app.patch("/user/:id", checkAuth, UserController.update);
+app.patch(
+  "/user/:id",
+  checkAuth,
+  updateUserValidation,
+  handleValidationErrors,
+  UserController.update
+);
 app.get("/user/:id", checkAuth, UserController.getOne);
+app.get("/users", checkAuth, UserController.getAll);
 
 app.get("/", TimetableController.getAll);
 app.get("/:id", TimetableController.getOne);
@@ -80,8 +88,6 @@ app.post(
 );
 app.patch("/group/:id", checkAuth, GroupController.update);
 app.delete("/group/:id", checkAuth, GroupController.remove);
-
-
 
 app.get("/teachers/all", TeacherController.getAll);
 app.get("/teacher/:id", TeacherController.getOne);

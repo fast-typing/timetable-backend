@@ -7,9 +7,10 @@ export const register = async (req, res) => {
     const password = req.body.password;
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
-    
+
     const doc = new UserModel({
       fullName: req.body.fullName,
+  
       passwordHash: hash,
     });
 
@@ -110,7 +111,8 @@ export const update = async (req, res) => {
         _id: UserId,
       },
       {
-        username: req.body.username,
+        teacher: req.body.teacher,
+        groupName: req.body.groupName,
       }
     );
 
@@ -124,8 +126,6 @@ export const update = async (req, res) => {
     });
   }
 };
-
-
 
 export const getOne = async (req, res) => {
   try {
@@ -161,6 +161,19 @@ export const getOne = async (req, res) => {
     console.log(err);
     res.status(500).json({
       message: "Не удалось получить заявку",
+    });
+  }
+};
+
+
+export const getAll = async (req, res) => {
+  try {
+    const users = await UserModel.find().exec();
+    res.json(users);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "Не удалось получить расписание",
     });
   }
 };

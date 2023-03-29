@@ -17,7 +17,9 @@ export const loginValidation = [
     min: 5,
   }),
 ];
-
+export const updateUserValidation = [
+  body("groupName", "Выберите группу").isString(),
+];
 export const timetableCreateValidation = [
   body("date", "Дата не определена").isLength({ min: 3 }).isString(),
   body("groups", "Данные не определены").isArray().notEmpty(),
