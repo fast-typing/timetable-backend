@@ -86,7 +86,7 @@ app.post(
   handleValidationErrors,
   GroupController.create
 );
-app.patch("/group/:id", checkAuth,handleValidationErrors, GroupController.update);
+app.patch("/group/:id", GroupController.update);
 app.delete("/group/:id", checkAuth, GroupController.remove);
 
 app.get("/teachers/all", TeacherController.getAll);
