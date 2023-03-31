@@ -41,11 +41,7 @@ app.post(
   handleValidationErrors,
   UserController.login
 );
-app.post("/uploads", checkAuth, upload.single("image"), (req, res) => {
-  res.json({
-    url: `/uploads/${req.file.originalname}`,
-  });
-});
+
 app.get("/me", checkAuth, UserController.getMe);
 app.patch(
   "/user/:id",
