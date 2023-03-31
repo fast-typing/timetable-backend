@@ -1,6 +1,5 @@
 import express from "express";
 import mongoose from "mongoose";
-import multer from "multer";
 import {
   registerValidation,
   loginValidation,
@@ -25,18 +24,8 @@ mongoose
 
 const app = express();
 
-const storage = multer.diskStorage({
-  destination: (_, __, cb) => {
-    cb(null, "uploads");
-  },
-  filename: (_, file, cb) => {
-    cb(null, file.originalname);
-  },
-});
 
-const upload = multer({
-  storage,
-});
+
 
 app.use(express.json());
 app.use(cors());
@@ -86,7 +75,8 @@ app.post(
   handleValidationErrors,
   GroupController.create
 );
-app.patch("/group/:id", GroupController.update);
+app.patch("/group/:id", checkAuth,
+  handleValidationErrors, GroupController.update);
 app.delete("/group/:id", checkAuth, GroupController.remove);
 
 app.get("/teachers/all", TeacherController.getAll);
@@ -100,7 +90,6 @@ app.post(
 app.patch("/teacher/:id", checkAuth, TeacherController.update);
 app.delete("/teacher/:id", checkAuth, TeacherController.remove);
 
-app.use("/uploads", express.static("uploads"));
 app.delete("/timetable/:id", checkAuth, TimetableController.remove);
 
 app.listen(process.env.PORT || 3000, (err) => {
